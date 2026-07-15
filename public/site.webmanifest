@@ -1,0 +1,13 @@
+{
+  "name": "Somnath Cab",
+  "short_name": "Somnath Cab",
+  "description": "Safe Journey, Divine Destination — Rajkot based premium taxi & car rental",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#B8933E",
+  "icons": [
+    { "src": "/images/somnath-cab-logo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/somnath-cab-logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

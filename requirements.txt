@@ -1,0 +1,102 @@
+# Somnath Cab — Requirements
+
+This project is a **Node.js / Next.js** application, not Python — so there is no `pip`-style
+`requirements.txt` in the traditional sense. This file lists everything required to build and run
+it, in the same spirit: system prerequisites first, then the exact package versions pinned in
+`package.json` / `package-lock.json`.
+
+Actual dependency resolution always happens via `package.json` — this file is a human-readable
+reference so you can see what's required at a glance before running `npm install`.
+
+---
+
+## 1. System Requirements
+
+| Requirement | Minimum Version | Notes |
+|---|---|---|
+| Node.js | 18.18.0 or later (20.x LTS recommended) | https://nodejs.org — includes npm |
+| npm | 9.x or later | Bundled with Node.js |
+| Git | any recent version | For cloning/version control |
+| OS | Windows 10/11, macOS, or Linux | Guide below targets Windows + PowerShell |
+| VS Code | latest | https://code.visualstudio.com |
+| RAM | 4 GB minimum, 8 GB+ recommended | Next.js dev server + TypeScript checking |
+| Disk | ~500 MB free | `node_modules` + build cache |
+
+Optional (only needed once you wire up live integrations):
+- A Google Cloud project with **Maps JavaScript API**, **Places API**, and **Distance Matrix API** enabled
+- A Razorpay or Stripe account (payments)
+- A Resend/SendGrid account (transactional email)
+- A Twilio account (SMS)
+- A Google Tag Manager / GA4 / Meta Business account (analytics)
+
+---
+
+## 2. Production Dependencies (`dependencies` in package.json)
+
+```
+next@14.2.35
+react@18.3.1
+react-dom@18.3.1
+typescript@5.5.4
+tailwindcss@3.4.7
+postcss@8.4.40
+autoprefixer@10.4.19
+framer-motion@11.3.19
+@tanstack/react-query@5.51.11
+@tanstack/react-query-devtools@5.51.11
+react-hook-form@7.52.2
+@hookform/resolvers@3.9.0
+zod@3.23.8
+lucide-react@0.417.0
+class-variance-authority@0.7.0
+clsx@2.1.1
+tailwind-merge@2.4.0
+tailwindcss-animate@1.0.7
+@radix-ui/react-dialog@1.1.1
+@radix-ui/react-select@2.1.1
+@radix-ui/react-popover@1.1.1
+@radix-ui/react-tabs@1.1.0
+@radix-ui/react-accordion@1.2.0
+@radix-ui/react-toast@1.2.1
+@radix-ui/react-label@2.1.0
+@radix-ui/react-slot@1.1.0
+@radix-ui/react-radio-group@1.2.0
+date-fns@3.6.0
+react-day-picker@8.10.1
+sonner@1.5.0
+next-themes@0.3.0
+```
+
+## 3. Development Dependencies (`devDependencies` in package.json)
+
+```
+@types/node@20.14.13
+@types/react@18.3.3
+@types/react-dom@18.3.0
+eslint@8.57.0
+eslint-config-next@14.2.35
+prettier@3.3.3
+prettier-plugin-tailwindcss@0.6.5
+```
+
+## 4. Recommended VS Code Extensions
+
+```
+esbenp.prettier-vscode          # Prettier — Code formatter
+dbaeumer.vscode-eslint          # ESLint
+bradlc.vscode-tailwindcss       # Tailwind CSS IntelliSense
+ms-vscode.vscode-typescript-next # Latest TS features (optional)
+formulahendry.auto-rename-tag   # Handy for JSX
+```
+
+## 5. Environment Variables
+
+See `.env.example` in the project root — copy it to `.env.local` and fill in real values before
+deploying to production. The app runs in development with all fields blank (integrations are
+architecturally stubbed, see README.md).
+
+---
+
+**To actually install everything**, don't edit this file — run `npm install` in the project root,
+which reads `package.json`/`package-lock.json` and installs the exact versions above.
+See `INSTALLATION_GUIDE.md` for full PowerShell + VS Code setup steps.
