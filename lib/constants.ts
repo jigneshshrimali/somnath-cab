@@ -90,7 +90,7 @@ export const VEHICLES: Vehicle[] = [
     luggage: 2,
     ratePerKm: 10,
     baseFare: 0,
-    image: "/images/fleet-city.jpg", // PLACEHOLDER — swap for a real Swift Dzire photo
+    image: "/images/sedan.png", // PLACEHOLDER — swap for a real Swift Dzire photo
     features: ["AC", "4 Seater", "Comfortable Sedan", "Ideal for 1-3 Passengers"],
     badge: "Popular",
   },
@@ -115,13 +115,13 @@ export const VEHICLES: Vehicle[] = [
  * fares come from lib/routes.ts (brochure-sourced fixed fares).
  */
 export const OUTSTATION_DESTINATIONS: Destination[] = [
-  { name: "Ahmedabad", slug: "ahmedabad", image: "/images/fleet-city.jpg", distanceKm: 216, description: "Business & leisure trips to Gujarat's largest city." },
-  { name: "Surat", slug: "surat", image: "/images/fleet-city.jpg", distanceKm: 430, description: "Comfortable long-distance rides to Surat." },
-  { name: "Vadodara", slug: "vadodara", image: "/images/fleet-city.jpg", distanceKm: 330, description: "Direct rides to Vadodara, day or night." },
-  { name: "Mumbai", slug: "mumbai", image: "/images/fleet-city.jpg", distanceKm: 600, description: "Long-distance comfort for Mumbai road trips." },
-  { name: "Jamnagar", slug: "jamnagar", image: "/images/fleet-city.jpg", distanceKm: 90, description: "Quick, affordable rides to Jamnagar." },
-  { name: "Junagadh", slug: "junagadh", image: "/images/somnath.png", distanceKm: 100, description: "Gateway to Girnar — comfortable rides to Junagadh." },
-  { name: "Morbi", slug: "morbi", image: "/images/fleet-city.jpg", distanceKm: 65, description: "Fast, affordable local-region trips to Morbi." },
+  { name: "Ahmedabad", slug: "ahmedabad", image: "/images/ahmedabad.jpg", distanceKm: 216, description: "Business & leisure trips to Gujarat's largest city." },
+  { name: "Surat", slug: "surat", image: "/images/surat.jpg", distanceKm: 430, description: "Comfortable long-distance rides to Surat." },
+  { name: "Vadodara", slug: "vadodara", image: "/images/vadodara.jpg", distanceKm: 330, description: "Direct rides to Vadodara, day or night." },
+  { name: "Mumbai", slug: "mumbai", image: "/images/mumbai.jpg", distanceKm: 600, description: "Long-distance comfort for Mumbai road trips." },
+  { name: "Jamnagar", slug: "jamnagar", image: "/images/jamnagar.jpg", distanceKm: 90, description: "Quick, affordable rides to Jamnagar." },
+  { name: "Junagadh", slug: "junagadh", image: "/images/junagadh.jpg", distanceKm: 100, description: "Gateway to Girnar — comfortable rides to Junagadh." },
+  { name: "Morbi", slug: "morbi", image: "/images/morbi.jpg", distanceKm: 65, description: "Fast, affordable local-region trips to Morbi." },
 ];
 
 export const WHY_CHOOSE_US = [

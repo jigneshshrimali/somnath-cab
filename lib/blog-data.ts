@@ -5,7 +5,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "rajkot-to-ahmedabad-road-trip-guide",
     title: "Rajkot to Ahmedabad by Road: A Complete Travel Guide",
     excerpt: "Planning a Rajkot to Ahmedabad trip? Here's what to expect on the route, travel time, and how to book a fixed-fare taxi.",
-    coverImage: "/images/fleet-city.jpg",
+    coverImage: "/images/outstation.png",
     date: "2026-05-12",
     author: "Somnath Cab Team",
     category: "Travel Guide",
