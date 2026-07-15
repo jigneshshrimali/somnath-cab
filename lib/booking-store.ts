@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Booking } from "@/types";
-import { NextRequest, NextResponse } from "next/server";
 /**
  * Local JSON-file booking store.
  *
@@ -21,17 +20,18 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "bookings.json");
 
 async function ensureDataFile() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
   try {
-    await fs.access(DATA_FILE);
-  } catch (err) {
-  console.error(err);
+    await fs.mkdir(DATA_DIR, { recursive: true });
 
-  return NextResponse.json(
-    { ok:false, error:"Unexpected server error"},
-    { status:500 }
-  );
-}
+    try {
+      await fs.access(DATA_FILE);
+    } catch {
+      await fs.writeFile(DATA_FILE, "[]", "utf-8");
+    }
+  } catch (err) {
+    console.error("Booking Store Error:", err);
+    throw err; // Let the API route handle the error
+  }
 }
 
 export async function getAllBookings(): Promise<Booking[]> {
