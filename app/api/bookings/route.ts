@@ -51,7 +51,15 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true, bookingRef }, { status: 201 });
   } catch (err) {
-    return NextResponse.json({ ok: false, error: "Unexpected server error" }, { status: 500 });
-  }
+  console.error("Booking API Error:", err);
+
+  return NextResponse.json(
+    {
+      ok: false,
+      error: "Unexpected server error",
+    },
+    { status: 500 }
+  );
+}
 }
 

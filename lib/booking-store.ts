@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Booking } from "@/types";
-
+import { NextRequest, NextResponse } from "next/server";
 /**
  * Local JSON-file booking store.
  *
@@ -24,9 +24,14 @@ async function ensureDataFile() {
   await fs.mkdir(DATA_DIR, { recursive: true });
   try {
     await fs.access(DATA_FILE);
-  } catch {
-    await fs.writeFile(DATA_FILE, "[]", "utf-8");
-  }
+  } catch (err) {
+  console.error(err);
+
+  return NextResponse.json(
+    { ok:false, error:"Unexpected server error"},
+    { status:500 }
+  );
+}
 }
 
 export async function getAllBookings(): Promise<Booking[]> {
