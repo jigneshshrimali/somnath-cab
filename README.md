@@ -143,22 +143,46 @@ render, and independently again inside each `/api/admin/*` route handler.
 ### How bookings get there
 
 Every submission through the public `/booking` flow POSTs to `/api/bookings`, which validates the
-payload server-side and calls `saveBooking()` in `lib/booking-store.ts`. That store currently
-persists to a local `data/bookings.json` file — see the important note below before deploying.
+payload server-side and calls `saveBooking()` in `lib/booking-store.ts`.
 
-### ⚠️ Important: swap the storage backend before deploying to serverless hosting
+### Storage backend — Supabase on Vercel, local file otherwise
 
-`lib/booking-store.ts` uses the filesystem (`data/bookings.json`) so the whole booking → admin
-flow works immediately with zero setup in local development. **This will not work correctly if
-deployed to Vercel or any serverless platform**, because serverless filesystems are read-only /
-ephemeral at request time and each function invocation may run on a different instance with no
-shared state.
+`lib/booking-store.ts` automatically picks its backend at runtime:
 
-Before going live, replace the four function bodies in `lib/booking-store.ts`
-(`getAllBookings`, `getBookingById`, `saveBooking`, `updateBookingStatus`) with real database
-calls — nothing else in the app needs to change, since every call site only depends on those four
-function signatures. Recommended: Postgres + Prisma (Vercel Postgres, Supabase, Neon, or
-PlanetScale all work well with Next.js on Vercel).
+- **If `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set**, bookings persist to a real
+  Postgres table in Supabase — this works correctly on serverless infrastructure.
+- **Otherwise**, it falls back to a local `data/bookings.json` file — fine for local development
+  with zero setup, but this fallback will NOT work correctly if deployed to Vercel or any
+  serverless platform without the Supabase env vars set (serverless filesystems are ephemeral and
+  not shared across function instances).
+
+### Setting up Supabase (step by step)
+
+1. **Create a project**: go to https://supabase.com → sign up/sign in → **New Project**. Pick any
+   name/region, set a database password (you won't need to remember it — you won't use it
+   directly), and wait ~2 minutes for it to provision.
+2. **Create the bookings table**: in your new project, open the **SQL Editor** (left sidebar) →
+   **New Query** → paste the entire contents of `supabase/schema.sql` (included in this project)
+   → click **Run**. This creates the `bookings` table with the right columns and indexes.
+3. **Get your API credentials**: go to **Project Settings → API** (gear icon, bottom of the left
+   sidebar). You need two values from this page:
+   - **Project URL** (looks like `https://xxxxx.supabase.co`) → this is `SUPABASE_URL`
+   - **`service_role` secret** (under "Project API keys" — NOT the `anon` `public` key) → this is
+     `SUPABASE_SERVICE_ROLE_KEY`
+
+   ⚠️ The `service_role` key bypasses all access restrictions — never expose it in client-side
+   code or commit it to git. It's only ever read server-side in this project (`lib/booking-store.ts`
+   is never imported by a `"use client"` component), and it belongs in Vercel's environment
+   variables / your local `.env.local`, never in `NEXT_PUBLIC_*` variables.
+4. **Add both values to Vercel**: your project on vercel.com → **Settings → Environment
+   Variables** → add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` with the values from step 3.
+5. **Redeploy** — environment variable changes require a new deployment to take effect
+   (Deployments tab → ⋯ menu on the latest deployment → **Redeploy**, or just push a new commit).
+6. Bookings submitted after this point persist correctly and show up in `/admin`.
+
+To test the same Supabase backend locally, copy those two variables into `.env.local` as well —
+otherwise local dev automatically uses the file-based fallback, which is fine for day-to-day
+development.
 
 ## SEO
 
@@ -225,7 +249,7 @@ For containerized deployment, use the official `node:20-alpine` base image, copy
 
 - [ ] Fill in every variable in `.env.example` with production values.
 - [ ] Generate `ADMIN_PASSWORD_HASH` and `ADMIN_SESSION_SECRET` for the admin dashboard (see "Admin Dashboard" above) — don't ship the defaults.
-- [ ] Replace `lib/booking-store.ts`'s file-based storage with a real database before deploying to serverless hosting.
+- [ ] Set up Supabase and add its env vars on Vercel so bookings persist correctly — see "Setting up Supabase" above.
 - [ ] Point `NEXT_PUBLIC_SITE_URL` to the real production domain (used by sitemap/canonicals/OG).
 - [ ] Restrict the Google Maps API key by HTTP referrer.
 - [ ] Wire up real database persistence for bookings (Postgres/Prisma recommended).
